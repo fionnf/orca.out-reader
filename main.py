@@ -23,7 +23,7 @@ def find_energy_values(base_dir, subdirs):
 
                     for line in lines:
                         if "G-E(el)" in line:
-                            gibbs_energy = line.strip().split()[-2]  # Assumes the value is the second last element
+                            gibbs_energy = line.strip().split()[-4]  # Assumes the value is the second last element
                             break
 
                     if final_energy or gibbs_energy:
