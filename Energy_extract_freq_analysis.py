@@ -65,8 +65,8 @@ def generate_series(first_index, last_index):
 
 # Example usage:
 base_directory = r"G:\.shortcut-targets-by-id\1gpf-XKVVvMHbMGqpyQS5Amwp9fh8r96B\RUG shared\Master Project\Computations"
-first = 132
-last = 146
+first = 131
+last = 131
 
 
 subdirectory_series = generate_series(first,last)
