@@ -67,7 +67,7 @@ end
    nuclei = all N {{aiso, adip}}
 end
 """
-    with open(os.path.join(target_dir, 'orca.inp'), 'w') as f:
+    with open(os.path.join(target_dir, 'orca.inp'), 'w', newline='\n') as f:
         f.write(inp_content)
 
     # Create orca.pbs file
@@ -86,7 +86,7 @@ module load ORCA
 orca_2mkl orca -molden
 exit
 """
-    with open(os.path.join(target_dir, 'orca.pbs'), 'w') as f:
+    with open(os.path.join(target_dir, 'orca.pbs'), 'w', newline='\n') as f:
         f.write(pbs_content)
 
 if __name__ == "__main__":
