@@ -2,7 +2,22 @@ import os
 import shutil
 import sys
 
-def main(source, target, charge, multiplicity):
+def extract_charge_multiplicity(file_path):
+    charge, multiplicity = None, None
+    with open(file_path, 'r') as file:
+        for line in file:
+            if line.strip().startswith('*xyz'):
+                parts = line.split()
+                try:
+                    charge = int(parts[1])
+                    multiplicity = int(parts[2])
+                    break
+                except (IndexError, ValueError):
+                    print("Charge and multiplicity not found or incorrect format in orca.inp")
+                    break
+    return charge, multiplicity
+
+def main(source, target):
     # Hardcoded base directory
     base_dir = r"G:\.shortcut-targets-by-id\1gpf-XKVVvMHbMGqpyQS5Amwp9fh8r96B\RUG shared\Master Project\Computations"
 
@@ -16,6 +31,13 @@ def main(source, target, charge, multiplicity):
     src_file = os.path.join(source_dir, 'orca.xyz')
     dest_file = os.path.join(target_dir, 'inp.xyz')
     shutil.copy(src_file, dest_file)
+
+    # Extract charge and multiplicity from source orca.inp
+    source_inp = os.path.join(source_dir, 'orca.inp')
+    charge, multiplicity = extract_charge_multiplicity(source_inp)
+    if charge is None or multiplicity is None:
+        print("Failed to extract charge or multiplicity from source orca.inp.")
+        return
 
     # Create orca.inp file
     inp_content = f"""%pal nprocs 32 end
@@ -68,11 +90,9 @@ exit
         f.write(pbs_content)
 
 if __name__ == "__main__":
-    if len(sys.argv) != 5:
-        print("Usage: python script.py <source_subdir> <target_subdir> <charge> <multiplicity>")
+    if len(sys.argv) != 3:
+        print("Usage: python script.py <source_subdir> <target_subdir>")
     else:
         source_subdir = sys.argv[1]
         target_subdir = sys.argv[2]
-        charge = int(sys.argv[3])
-        multiplicity = int(sys.argv[4])
-        main(source_subdir, target_subdir, charge, multiplicity)
+        main(source_subdir, target_subdir)
