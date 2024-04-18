@@ -55,7 +55,7 @@ end
 end
 
 !xyzfile
-*xyz {charge} {multiplicity} inp.xyz
+*xyzfile {charge} {multiplicity} inp.xyz
 
 !NMR
 
